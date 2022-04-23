@@ -1,0 +1,49 @@
+mybatis:
+  config-location: classpath:mybatis/mybatis-config.xml
+spring:
+  aop:
+    auto: true
+  datasource:
+    druid:
+      url:  jdbc:mysql://127.0.0.1:3306/redis?useUnicode=true&allowMultiQueries=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true&verifyServerCertificate=false&useSSL=false
+      driver-class-name:  com.mysql.cj.jdbc.Driver
+      username:  root
+      password:  root
+      initial-size:  10
+      max-active:  50
+      min-idle:  10
+      max-wait:  60000
+      pool-prepared-statements:  true
+      max-pool-prepared-statement-per-connection-size:  20
+      validation-query:  SELECT 1 FROM DUAL
+      test-on-borrow:  false
+      test-on-return:  false
+      test-while-idle:  true
+      time-between-eviction-runs-millis:  60000
+      min-evictable-idle-time-millis: 300000
+      connect-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+      #      filters:  stat,wall
+      filters: config,stat,slf4j
+      filter:
+        wall:
+          config:
+            multi-statement-allow=true
+
+  jackson:
+    #日期格式化
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+
+  #redis配置
+  redis:
+    #Redis服务器地址
+    host: 127.0.0.1
+    #Redis数据库索引（缓存将使用此索引编号的数据库）
+    database:  1
+    #Redis服务器连接端口
+    port: 6379
+    #Redis服务器连接密码（默认为空）
+    password: 123456
+    #连接超时时间（毫秒）
+    timeout:  10000
+

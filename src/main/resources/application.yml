@@ -1,0 +1,26 @@
+server:
+  port: 8080
+
+spring:
+  profiles:
+    active: db-dev,config-dev
+  messages:
+    encoding: UTF-8
+  activiti:
+    database-schema-update: true
+    # 自动部署验证设置:true-开启（默认）、false-关闭
+    check-process-definitions: false
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+0
+    default-property-inclusion: non_null
+
+
+
+mybatis:
+  typeAliasesPackage: com.*.*.entity
+  mapperLocations: classpath:mapper/*.xml
+logging:
+  level:
+    com.epro.sys.dao : debug
+
