@@ -840,8 +840,7 @@ public class RedisUtils {
             @SuppressWarnings("unchecked")
             public Boolean execute(RedisOperations operations) throws DataAccessException {
                 operations.multi();
-                redisTemplate.opsForValue().setIfAbsent(key, value);
-                redisTemplate.expire(key, releaseTime, TimeUnit.SECONDS);
+                redisTemplate.opsForValue().setIfAbsent(key, value,releaseTime,TimeUnit.SECONDS);
                 exec = operations.exec();
                 if(exec.size() > 0) {
                     //事务判断

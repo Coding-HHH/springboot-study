@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 public class RedisController {
@@ -23,8 +24,22 @@ public class RedisController {
     private RedisTemplate redisTemplate;
 
     @GetMapping("redis")
-    public String redis(){
-        redisTemplate.opsForValue().set("888",new Entity("666","huang",123));
-        return "success";
+    public void redis(){
+        for (int i = 0; i < 2; i++) {
+            new Thread(()->{
+                try {
+                    while (!redisUtils.lock("test","147258369",3,redisTemplate)){
+                        System.out.println(Thread.currentThread().getName() +"尝试获取锁");
+                    }
+                    TimeUnit.SECONDS.sleep(2);
+                    System.out.println(Thread.currentThread().getName() +"执行完毕");
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }finally {
+                    redisTemplate.delete("test");
+                    System.out.println(Thread.currentThread().getName() +"释放锁");
+                }
+            }).start();
+        }
     }
 }
